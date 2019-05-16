@@ -1,0 +1,87 @@
+public class kmp {
+	public static void main(String args[])
+	{
+		Scanner in = new Scanner(System.in);
+		String input1 = in.next();
+		String input2 = in.next();
+		char[] input1_array = new char[input1.length()];
+		char[] input2_array = new char[input2.length()];
+		input2_array = input2.toCharArray();
+		input1_array = input1.toCharArray();
+		int[] temp = new int[input2.length()];
+	
+		for(int i=0;i<input2_array.length;i++)
+		{
+			temp[i]=-1;
+		}
+		for(int i=0;i<input2.length();i++)
+		{
+			for(int j=0;j<i;j++)
+				{
+						if(input2_array[i] == input2_array[j])
+						{
+							temp[i]=j;
+							break;	
+						}		
+				}
+		}
+		int size1 = input1_array.length;
+		int size2 = input2_array.length;
+		int t =0,count=-1;
+		if(!kmp(input1_array,input2_array,temp,size1,size2,t,count))
+		{
+			System.out.println("pattern not matching");
+		}		
+	}
+	public static boolean kmp(char input1_array[],char input2_array[],int temp[],int size1,int size2,int  t,int count)
+	{boolean tex= true;
+		if((count == -1)&&(t== size1-1))
+		{	tex = false;
+			return false;
+		}
+		for(int i=t;i<size1;i++)
+		{
+			if(input1_array[i] == input2_array[count+1])
+			{
+				System.out.println(count);
+				count++;	
+				if(count == size2-1)
+				{	 tex =  true;
+					System.out.println("pattern matching");
+					return true;
+				}
+			}
+			else
+			{	
+				if(count==-1)
+				{
+					t=i+1;
+				}
+				else
+				{
+					t=i;	
+				}
+				if(count != -1)
+				{
+					count = temp[count];
+				}
+				if(kmp(input1_array,input2_array,temp,size1,size2,t,count))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}				
+			}		
+		}
+		if(tex)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
